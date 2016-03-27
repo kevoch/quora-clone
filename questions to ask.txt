@@ -1,0 +1,3 @@
+Questions with regard to the exercise:
+1. model > user > has_many : questions?
+2. helpers : does sinatra always go through all the helpers file and methods?

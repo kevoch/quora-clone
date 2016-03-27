@@ -1,2 +1,8 @@
-<h1>Hello World</h1>
-<p>See Me in views/static/index.html.erb</p>
+<h1>Quora-clone</h1>
+<%if logged_in?%>
+
+    <form action="/logout" method="post">
+      <input type='submit' value="Logout">
+    </form>
+
+<%end%>
