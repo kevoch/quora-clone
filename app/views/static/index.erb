@@ -6,3 +6,35 @@
     </form>
 
 <%end%>
+
+<h3>Links</h3>
+
+<a href ="/login" >Login</a><br>
+<a href ="/signup" >Sign up</a><br>
+<!-- <a href ="localhost9393/login" >Login</a><br> -->
+
+
+<h2>Ask question</h2>
+<%if logged_in? %>
+  <form action="/questions" method="post">
+      <input type="body" name="questions" placeholder="question">
+      <input type='submit' value="Ask a question">
+  </form>
+<%else%>
+  <p>Please log in to ask questions or sign up for an account by clicking the link above.</p>
+<%end%>
+
+
+
+<h2>Top stories</h2>
+<table style="width:100%">
+<th>Question</th>
+  <%Question.all.each do |row|%>
+<tr>
+    <td><%=row.body%></td>
+</tr>
+  <%end%>
+</table>
+
+
+
