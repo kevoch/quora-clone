@@ -1,0 +1,32 @@
+<%if logged_in?%>
+
+    <p>Username : <%=@current_user.username%></p>
+    <form action="/logout" method="post">
+      <input type='submit' value="Logout">
+    </form>
+
+      <h2>Ask your question here</h2>
+         <% if @question && !@question.errors.empty? %>
+           <% @question.errors.full_messages.each do |e| %>
+             <p><%= e%></p>
+           <%end%>
+         <%end%>
+
+             <form action="/questions" method="post">
+                 <input type="body" name="question[title]" placeholder="Enter Question Title"><br>
+                 <textarea placeholder="Enter Question Here" name="question[body]" rows='5' cols='30'></textarea><br>
+                 <input type='submit' value="Ask a question"><br>
+             </form>
+<%else%>
+      <p>Please login or sign up for an account to post a new question!</p>
+      <a href ="/login" >Login</a><br>
+      <a href ="/signup" >Sign up</a><br>
+
+<%end%>
+
+
+
+
+
+
+  

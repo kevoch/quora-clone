@@ -1,0 +1,11 @@
+
+<h2>Your Answers</h2>
+<% if @answer && !@answer.errors.empty? %>
+  <% @answer.errors.full_messages.each do |x| %>
+    <p><%= x%></p>
+  <%end%>
+<%end%>
+<form method='post' action='/questions/<%=params[:question_id]%>/answers'>
+     <textarea placeholder="Enter Answer Here" name="answer[text]" rows="5" cols="30" ></textarea>
+ <input type="submit" value="post">
+</form>

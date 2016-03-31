@@ -1,3 +1,21 @@
 Questions with regard to the exercise:
 1. model > user > has_many : questions?
 2. helpers : does sinatra always go through all the helpers file and methods?
+
+
+<!--       <h1>Your Answers</h1>
+        <table border="1">
+          <tr>
+            <th> Answer </th>
+            <th> Question </th>
+            <th> Description </th>
+          </tr>
+
+      <% @answers.each do |answer| %>
+        <tr>
+          <td><%= answer.text %></td>
+          <td><%= answer.question.title %></td>
+          <td><%= answer.question.body %></td>
+        </tr>
+      <% end %>
+    </table> -->

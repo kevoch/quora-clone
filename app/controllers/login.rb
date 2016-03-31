@@ -9,7 +9,7 @@ end
 
 post '/login' do
   @user = User.authenticate(params[:email], params[:password])
-  byebug
+  
   if @user 
     session[:user_id] = @user.id
     redirect to '/'

@@ -1,9 +1,13 @@
 <h1>Quora-clone</h1>
 <%if logged_in?%>
 
+    <p>Username :<a href ="/users/<%=@current_user.id%>" ><%=@current_user.username%></a></p>
     <form action="/logout" method="post">
       <input type='submit' value="Logout">
     </form>
+    <br>
+    <a href ="/new_question" >To ask a new question</a>
+    <br>
 
 <%end%>
 
@@ -14,27 +18,89 @@
 <!-- <a href ="localhost9393/login" >Login</a><br> -->
 
 
-<h2>Ask question</h2>
-<%if logged_in? %>
-  <form action="/questions" method="post">
-      <input type="body" name="questions" placeholder="question">
-      <input type='submit' value="Ask a question">
-  </form>
-<%else%>
-  <p>Please log in to ask questions or sign up for an account by clicking the link above.</p>
-<%end%>
+
+    <h2> Top Questions </h2>
+    <table border="1" width="100%">
+    <tr>
+        <th> Number </th>
+        <th> Ques ID </th>
+        <th> Title </th>
+        <th> Description </th>
+        <th> Posted By </th>
+        <th> Vote Controls </th>
+        <th> Votes Data </th>
+        <!-- <th> Answers </th> -->
+    </tr>
+   
+ 
+    <% @questions.each.with_index do |question, index| %>
+    <tr>
+        <td><p><%= index + 1 %></a></p></td>
+        <td><p><%= question.id %></a></p></td>
+        <td><p><a href="/questions/<%=question.id%>"><%= question.title %></a></p></td>
+        <td><p><%= question.body %></p></td>
+        <td><p><%= question.user.username %></p></td>
+        <td><p>
+        <form action="/questions/<%= question.id %>/upvote" method="POST">
+            <input type="submit" value="upvote"></form>
+        <form action="/questions/<%= question.id %>/downvote" method="POST">
+            <input type="submit" value="downvote"></form>
+        <form action="/questions/<%= question.id %>/reset" method="POST">
+            <input type="submit" value="reset"></form>
+        </p></td>
+         <td><p>
+
+        <!--To show vote count(s) by type-->
+    Total question vote(s)  <%= question.question_votes.count %><br> 
+    Total question upvote(s) <%= question.question_votes.where(question_vote_count: 1).count %><br>
+    Total question downvote(s)  <%= question.question_votes.where(question_vote_count: -1).count %><br><br>
+        
+
+        </p></td>
+        </tr>
 
 
 
-<h2>Top stories</h2>
-<table style="width:100%">
-<th>Question</th>
-  <%Question.all.each do |row|%>
-<tr>
-    <td><%=row.body%></td>
-</tr>
-  <%end%>
-</table>
+
+        <tr align="center">
+        <td colspan="7"><p>
+            
+            <!-- ANSWERS COLUMN -->
+            <% if question.answers.count == 0 %>
+        No answers yet, would you want answer it? <br>
+        <br>
+    Kindly click on the question name on the FAR TOP LEFT of this question to post your answer<br> 
+    <% else %>
+        <% question_answers = question.answers %>
+        <% question_answers.each.with_index do |answer, index| %>
+            <%= index + 1 %><%= ". " %><%= answer.text %><br>
+
+    <!--The form for up voting on answers -->
+    <form action='/answers/<%= answer.id %>/upvote' method="POST">
+        <input type="submit" value="Answer Upvote"></form>
+    <!--The form for down voting on answers -->
+    <form action='/answers/<%= answer.id %>/downvote' method="POST">
+        <input type="submit" value="Answer Downvote"></form>
+    <!--The form for resetting answers -->
+    <form action='/answers/<%= answer.id %>/reset' method="POST">
+        <input type="submit" value="Reset Answer Vote"></form>
+
+    <!--To find the total amount of votes by type-->    
+    Total answer vote(s): <%= answer.answer_votes.count %><br>
+    Total answer upvote(s): <%= answer.answer_votes.where(answer_vote_count: 1).count %><br>
+    Total answer downvote(s): <%= answer.answer_votes.where(answer_vote_count: -1).count %><br>
+    <br>
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------^^---Answered By------
+    <%= answer.user.username %>
+    <br>
+
+        <% end %> <!--Ends answer do each -->
+    <% end %>    <!--Ends If else answer present or not-->
+
+        </p></td>
 
 
 
+    </tr>
+    <% end %>
+    </table>

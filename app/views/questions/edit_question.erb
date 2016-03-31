@@ -1,0 +1,51 @@
+<h2>Edit Your Question Here</h2>
+
+<%if logged_in?%>
+
+    <p>Username : <%=@current_user.username%></p>
+    <form action="/logout" method="post">
+      <input type='submit' value="Logout">
+    </form>
+
+       <% if @question && !@question.errors.empty? %>
+          <% @question.errors.full_messages.each do |e| %>
+          <p><%= e%></p>
+          <%end%>
+       <%end%>
+
+  <h3>Edit Fields Below And Click Edit To Update This Question</h3>
+
+    <form action="/questions/<%= @question.id %>" method="post">
+      <input type='hidden' name="_method" value="put">
+      <input type="text" placeholder="<%= @question.title %>" name="question[title]"><br>
+      <textarea name="question[body]" rows="5" cols="30"><%=@question.body %></textarea>
+      <input type="submit" value="Update">
+    </form>
+
+    <br>
+
+        <form method="post" action="/questions/<%=@question.id%>"> 
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="question[title]"><br>
+        <input type="hidden" name="question[body]" ></textarea>
+        <button type="submit">Delete</button>
+        </form>
+
+    <br>
+
+         <a href="/new_question"> Ask New Question</a>
+
+
+<%else%>
+    <p>Please login or sign up for an account to post or edit question!</p>
+    <a href ="/login" >Login</a><br>
+    <a href ="/signup" >Sign up</a><br>
+
+<%end%>
+
+
+
+
+
+
+  

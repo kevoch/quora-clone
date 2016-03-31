@@ -1,0 +1,99 @@
+
+
+    <h2>Your current question</h2>
+
+    <%if logged_in?%>
+
+        <p>Username : <%=@current_user.username || @user.username%></p>
+        <a href="/user_profile"> Your Profile</a>
+        <p><%= @answer_error %></p>
+    <%else%>
+        <p>Welcome. You may sign up or login to post a question/answer.</p>
+
+    <%end%>
+
+    <table border="1">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Subject</th>
+      </tr>
+
+        <tr>
+          <td><%= @question.id %></td>
+          <td><%= @question.title %></td>
+          <td><%= @question.body %></td>
+        </tr>
+
+    </table>
+
+
+    <table border="1">
+      <tr>
+        <th>Answers</th>
+        <th>Author</th>
+        <th>Delete?</th>
+      </tr>
+
+      <% if @answers.empty? %>  <!-- If answer is NOTHING  -->
+      <tr>
+      <td><p>There are no answers posted yet!</p></td>
+      
+      </tr>
+
+      <% else %>  <!-- If answer got VALUE -->
+        <% @answers.each do |answer| %>
+
+        <tr>
+        <td><p><%= answer.text %></p></td>
+        <td><p><%= answer.user.username %></p></td>
+        <td><%if answer.user == current_user%>
+        <form method="post" action="/answers/<%=answer.id%>"> 
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Yes</button>
+        <%end%>
+        </form>
+        </td>
+        </tr>
+
+        <% end %>
+    <% end %>
+    </table>
+
+        <br>
+        <%if logged_in?%>
+
+              <a href="/single_question"> Ask New Question</a>
+
+              <br>
+               <%if @question.user == current_user%>
+               <a href="/questions/<%=@question.id%>/edit"> Edit Question</a>
+
+               <br>
+
+              <form method="post" action="/questions/<%=@question.id%>"> 
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="question[title]"><br>
+              <input type="hidden" name="question[body]" ></textarea>
+              <button type="submit">Delete</button>
+              </form>
+              <%end%>
+          <!-- #ANSWERS -->
+
+          <form method="post" action="/questions/<%=@question.id%>/answers">
+           <textarea placeholder="Enter Answer Here" name="answer[text]" rows="5" cols="30" ></textarea>
+           <input type="submit" value="Post">
+          </form>
+
+          <a href='/questions/<%= @question.id %>/answers/new'> Post Answer At New Page</a>
+        <%end%>
+
+
+
+
+
+
+
+
+
+

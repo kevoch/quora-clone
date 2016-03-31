@@ -1,0 +1,75 @@
+<%if !logged_in?%>
+
+<h1> Sorry! Please Log In Or Sign Up To Continue! </h1>
+
+<a href="/signup"> Sign Up! </a>
+
+<br>
+
+<a href="/login"> Log In! </a>
+
+
+<% else %>
+
+
+<h2>Here is the Question</h2>
+
+<% @user = current_user %>
+
+<h1>Profile Page</h1>
+<p>User name : <%= @user.username %> </p>
+<p>Email: <%= @user.email %> </p>
+
+<br>
+
+ <form action="/logout" method="post">
+      <input type="submit" value="Logout">
+    </form>
+
+<br>
+
+<a href="/"> Public Home Page </a>
+
+<h1>Your Questions</h1>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Description</th>
+  </tr>
+
+  <% @user.questions.each do |question| %>
+    <tr>
+      <td><%= question.id %></td>
+      <td><a href="/questions/<%=question.id%>"><%= question.title %></a></td>
+      <td><%= question.body %></td>
+    </tr>
+  <% end %>
+</table>
+
+    <br>
+
+    <a href="/new_question"> Ask New Question</a>
+
+    <br>
+
+    <h1>Your Answers</h1>
+    <table border="1">
+      <tr>
+        <th> Answer </th>
+        <th> Question </th>
+        <th> Description </th>
+      </tr>
+
+  <% @user.answers.each do |answer| %>
+    <tr>
+    <%question_id = answer.question_id%>
+      <td><%= answer.text %></td>
+      <td><%= answer.question.title %></td>
+      <td><%= answer.question.body %></td>
+    </tr>
+  <% end %>
+</table>
+
+
+<% end %>
